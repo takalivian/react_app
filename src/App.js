@@ -3,40 +3,59 @@ import Rect from './Rect';
 import './App.css';
 
 class App extends Component {
+
+  date =[];
+
   msgStyle = {
-    fontSize:"24pt",
+    fontSize:"20pt",
     color:"#900",
     margin:"20px 0",
-    padding:"5px",
-    borderBottom:"2px solid #900"
+    padding:"5px"
   }
-  btnStyle = {
-    fontSize:"20pt",
-    padding:"0 10px"
+
+  area= {
+    width:"500px",
+    height:"500px",
+    border: "1px solid blue"
   }
 
   constructor(props){
     super(props);
     this.state={
-      counter:0,
-      msg:"count start!",
+      list:this.date
     };
     this.doAction = this.doAction.bind(this);
   }
 
   doAction(e){
-    this.setState((state)=>({
-      counter: state.counter + 1,
-      msg:"count: "+ state.counter
-    }));
+    let x = e.pageX;
+    let y = e.pageY;
+    this.date.push({x:x, y:y});
+    this.setState({
+      list:this.date
+    }) ;
+  }
+
+  draw(d){
+    let s = {
+      position:"absolute",
+      left:(d.x - 25) + "px",
+      top:(d.y - 25) + "px",
+      width:"50px",
+      height:"50px",
+      backgroundColor:"#66f3"
+    };
+    return <div style={s} ></div>;
   }
 
   render (){
     return <div>
       <h1>react</h1>
-      <p style={this.msgStyle}>{this.state.msg}</p>
-      <button style={this.btnStyle} onClick={this.doAction}>Click</button> 
-    </div>
+      <h2 style={this.msgStyle}>show rect.</h2>
+      <div style={this.area} onClick={this.doAction}>
+        {this.date.map((value)=>this.draw(value))}
+      </div>
+    </div>;
   }
 
 }
