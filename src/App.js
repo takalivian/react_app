@@ -3,82 +3,54 @@ import Rect from './Rect';
 import './App.css';
 
 class App extends Component {
-
-  date =[
-    "This is list sample.",
-    "これはリストのサンプルです。",
-    "配列をリストに変換します。"
-  ];
+  input = "";
 
   msgStyle = {
-    fontSize:"20pt",
-    color:"#900",
+    fontSize: "20pt",
+    color: "#900",
     margin:"20px 0",
-    padding:"5px"
+    padding: "5px"
   }
 
-  constructor(props){
+  inputStyle = {
+    fontSize:"20pt",
+    padding: "5px"
+  }
+
+  constructor(props) {
     super(props);
-    this.state={
-      list:this.date
+    this.state = {
+      message:"type your name:"
     };
+    this.doChange = this.doChange.bind(this);
+    this.doSubmit = this.doSubmit.bind(this);
   }
 
-  render(){
+  doChange(event) {
+    this.input = event.target.value;
+  }
+
+  doSubmit(event) {
+    this.setState ({
+      message: "Hello, " + this.input + "!!"
+    });
+    event.preventDefault();
+  }
+
+  render() {
     return <div>
       <h1>React</h1>
-      <h2 style ={this.msgStyle}>show list.</h2>
-      <List title= "サンプル・リスト" date={this.date} />
-    </div>;
-  }
-}
-
-class List extends Component {
-  number = 1;
-
-  title = {
-    fontSize:"20pt",
-    fontWight:"bold",
-    color:"blue"
+      <h2>{this.state.message}</h2>
+      <form onSubmit={this.doSubmit}>
+        <label>
+          <span style={this.inputStyle}></span>Message:
+          <input type="text" style={this.inputStyle} onChange={this.doChange} />
+        </label>
+        <input type="submit" style={this.inputStyle} value="Click" />
+      </form>
+    </div>
   }
 
-  render(){
-    let date = this.props.date;
-      return (
-        <div>
-          <p style={this.title}>{this.props.title}</p>
-            <ul>
-              {date.map((item)=>
-                <Item number={this.number++} value={item}
-                  key={this.number} />
-              )}
-            </ul>
-        </div>
-      )
-  }
-}
-
-class Item extends Component {
-  li = {
-    listStyleType:"square",
-    fontSize:"16pt",
-    color:"#06",
-    margin:"0",
-    padding: "0"
-  }
-  num = {
-    fontWeight:"bold",
-    color:"red"  
-  }
-
-  render(){
-    return (
-      <li style={this.li}>
-        <span style={this.num}>[{this.props.number}]</span>
-        {this.props.value}
-      </li>
-    )
-  }
 }
 
 export default App;
