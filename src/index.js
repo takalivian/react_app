@@ -34,8 +34,8 @@ let store = createStore(counter);
 
 // 表示をレンダリング
 ReactDOM.render(
-  <provider store={store}>
+  <Provider store={store}>
     <App />
-  </provider>,
+  </Provider>,
   document.getElementById('root')
 );
