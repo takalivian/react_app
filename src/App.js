@@ -9,30 +9,77 @@ import DelForm from './memo/DelForm';
 
 // Appコンポーネント
 class App extends Component {
-  td = {
-    width:"250px"
-  }
 
-
-  constructor(props){
+  constructor(props) {
     super(props);
   }
 
-  render() {
-    return (
+  render(){
+    return(
       <div>
-        <h1>Memo</h1>
-        <AddForm />
-        <hr />
-        <table><tbody><tr>
-          <td style={this.td}><FindForm /></td>
-          <td style={this.td}><DelForm /></td>
-        </tr></tbody></table>
-        <Memo />
+        <h1>Redux</h1>
+        <Message />
+        <Button />
       </div>
     );
   }
 }
 
+// ストアのコネクト
+App = connect()(App);
+
+// メッセージ表示のコンポーネント
+class Message extends Component {
+  style = {
+    fontSize:"20pt",
+    padding:"20px 5px"
+  }
+
+  render() {
+    return (
+      <p style={this.style}>
+        {this.props.message}: {this.props.counter}
+      </p>
+    );
+  }
+}
+
+// ストアのコネクト
+Message = connect((state)=>state)(Message);
+
+// ボタンのコンポーネント
+class Button extends Component {
+  style = {
+    fontSize:"16pt",
+    padding:"5px 10px"
+  }
+
+  constructor(props){
+    super(props);
+    this.doAction = this.doAction.bind(this);
+  }
+
+  // ボタンクリックでディスパッチを実行
+  doAction(e){
+    if (e.shiftKey){
+      this.props.dispatch({ type:'DECREMENT' });
+    } else if (e.ctrlKey){
+      this.props.dispatch({ type:'RESET' });
+    } else {
+      this.props.dispatch({ type:'INCREMENT' });
+    }
+  }
+
+  render(){
+    return (
+      <button style={this.style} onClick={this.doAction}>
+        click
+      </button>
+    );
+  }
+}
+
+// ストアのコネクト
+Button = connect()(Button);
 
 export default connect()(App);
